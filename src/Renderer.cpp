@@ -35,7 +35,7 @@ void Renderer::render() {
 }
 
 void Renderer::clear() {
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
 }
 
@@ -51,7 +51,7 @@ void Renderer::drawPiece(Piece* piece) {
         int x = piece->getX() + shape[i].first;
         int y = piece->getY() + shape[i].second;
         Color color = piece->getColor();
-        drawRect(x * 20, y * 20, 40, 40, getR(color), getG(color), getB(color));
+        drawRect(x * 30 + 50, y * 30 + 50, 30, 30, getR(color), getG(color), getB(color));
     }
 }
 
@@ -59,10 +59,8 @@ void Renderer::drawBoard(Board* board) {
     Color* grid = board->getGrid();
     for (int i = 0; i < 20; i++) {
         for (int j = 0; j < 10; j++) {
-            if (grid[i * 10 + j] != BLACK) {
-                Color c = grid[i * 10 + j];
-                drawRect(j * 20, i * 20, 40, 40, getR(c), getG(c), getB(c));
-            }
+            Color c = grid[i * 10 + j];
+            drawRect(j * 30 + 50, i * 30 + 50, 30, 30, getR(c), getG(c), getB(c));
         }
     }   
 }

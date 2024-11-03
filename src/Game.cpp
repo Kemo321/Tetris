@@ -11,25 +11,28 @@ Game::~Game() {
 }
 
 void Game::run() {
+    const int updateInterval = 1000/2; // 1000 ms = 1 second
+    last_time = SDL_GetTicks();
+
     while (running) {
+        // Handle events continuously
         handleEvents();
-        update();
         render();
+
+        current_time = SDL_GetTicks();
+        delta_time = current_time - last_time;
+
+        if (delta_time >= updateInterval) {
+            update();
+            last_time = current_time; 
+        }
     }
+
     clean();
 }
 
+
 void Game::update() {
-    current_time = SDL_GetTicks();
-    delta_time = current_time - last_time;
-
-    // Targeting 30 FPS (1000ms / 30 frames = ~33ms per frame)
-    const int targetFrameTime = 1000/30; // 30 FPS
-    if (delta_time < targetFrameTime) {
-        SDL_Delay(targetFrameTime - delta_time);
-    }
-
-    last_time = current_time;
     board->movePiece();
 }
 

@@ -22,7 +22,7 @@ public:
 private:
     int rows;
     int cols;
-    Color grid[10][20];
+    Color grid[20][10];
 
 protected:
     Piece* moving_piece;
