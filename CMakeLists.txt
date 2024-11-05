@@ -9,7 +9,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Define source files for the game
 set(SOURCES
-    src/main.cpp
     src/Game.cpp
     src/Board.cpp
     src/Piece.cpp
@@ -18,7 +17,7 @@ set(SOURCES
 )
 
 # Add the executable
-add_executable(Tetris ${SOURCES})
+add_executable(Tetris src/main.cpp ${SOURCES})
 
 # Include directories for the game
 target_include_directories(Tetris PUBLIC include)

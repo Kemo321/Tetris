@@ -150,3 +150,7 @@ std::vector<int> Board::getFullRows(){
 Color* Board::getGrid() {
     return *grid;
 }
+
+Piece* Board::getMovingPiece() {
+    return moving_piece;
+}
