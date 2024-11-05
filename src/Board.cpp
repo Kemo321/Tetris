@@ -1,6 +1,7 @@
 #include "Board.hpp"
 #include "Piece.hpp"
 #include "Constants.hpp"
+#include <string>
 
 
 Board::Board() : rows(20), cols(10)
@@ -39,6 +40,12 @@ void Board::cutRow(int row) {
     }
 }
 
+void Board::cutFullRows() {
+    for (const int& row : getFullRows()) {
+        cutRow(row);
+    }
+}
+
 void Board::movePiece() {
     if (moving_piece == nullptr) {
         return;
@@ -55,6 +62,13 @@ void Board::movePiece() {
             }
             delete moving_piece;
             moving_piece = new Piece();
+            for (int i = 0; i < shape.size(); i++) {
+                int x = moving_piece->getX() + shape[i].first;
+                int y = moving_piece->getY() + shape[i].second;
+                if (isOccupied(x, y)) {
+                    throw std::string("Game Over");
+                }
+            }
             return;
         }
     }
@@ -65,8 +79,8 @@ bool Board::isOccupied(int x, int y) {
     return grid[y][x] != BLACK;
 }
 
-int Board::getFullRows(){
-    int full_rows = 0;
+std::vector<int> Board::getFullRows(){
+    std::vector<int> full_rows;
     for (int i = 0; i < rows; i++) {
         bool full = true;
         for (int j = 0; j < cols; j++) {
@@ -76,8 +90,7 @@ int Board::getFullRows(){
             }
         }
         if (full) {
-            full_rows++;
-            cutRow(i);
+            full_rows.push_back(i);
         }
     }
     return full_rows;

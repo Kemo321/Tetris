@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include <string>
 
 
 Game::Game() : running(true), renderer(new Renderer()), board(new Board()), last_time(SDL_GetTicks()), current_time(0), delta_time(0) {
@@ -22,7 +23,7 @@ void Game::run() {
         current_time = SDL_GetTicks();
         delta_time = current_time - last_time;
 
-        if (delta_time >= updateInterval) {
+        if (delta_time >= updateInterval && !paused) {
             update();
             last_time = current_time; 
         }
@@ -33,7 +34,13 @@ void Game::run() {
 
 
 void Game::update() {
-    board->movePiece();
+    try {
+        board->movePiece();
+    } catch (const std::string& e) {
+        reset();
+        paused = true;
+    }
+    board->cutFullRows();
 }
 
 
@@ -41,6 +48,7 @@ void Game::render() {
     renderer->clear();
     renderer->drawBoard(board);
     renderer->drawPiece(board->moving_piece);
+    renderer->drawOutline();
     renderer->render();
 }
 
@@ -54,13 +62,23 @@ void Game::handleEvents() {
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym) {
                     case SDLK_LEFT:
+                        if (!paused)
                         board->moving_piece->moveLeft();
                         break;
                     case SDLK_RIGHT:
+                        if (!paused)
                         board->moving_piece->moveRight();
                         break;
                     case SDLK_UP:
+                        if (!paused)
                         board->moving_piece->rotate();
+                        break;
+                    case SDLK_DOWN:
+                        if (!paused)
+                        board->movePiece();
+                        break;
+                    case SDLK_SPACE:
+                        paused = !paused;
                         break;
                 }
                 break;
@@ -70,6 +88,12 @@ void Game::handleEvents() {
 
 void Game::clean() {
     SDL_Quit();
+}
+
+void Game::reset(){
+    board->clear();
+    board->addPiece();
+    paused = false;
 }
 
 bool Game::isRunning() {

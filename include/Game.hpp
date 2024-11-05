@@ -13,9 +13,11 @@ public:
     void render();
     void handleEvents();
     void clean();
+    void reset();
     bool isRunning();
 
 private:
+    bool paused;
     bool running;
     Renderer* renderer;
     Board* board;

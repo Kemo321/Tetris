@@ -9,7 +9,7 @@ Renderer::Renderer() {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
         exit(1);
     }
-    window = SDL_CreateWindow("SDL2 Window", 100, 100, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
+    window = SDL_CreateWindow("Tetris", 100, 100, WINDOW_WIDTH, WINDOW_HEIGHT, SDL_WINDOW_SHOWN);
     if (window == nullptr) {
         std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
         SDL_Quit();
@@ -43,6 +43,20 @@ void Renderer::drawRect(int x, int y, int w, int h, Uint8 r, Uint8 g, Uint8 b, U
     SDL_SetRenderDrawColor(renderer, r, g, b, 255);
     SDL_Rect rect = {x, y, w, h};
     SDL_RenderFillRect(renderer, &rect);
+}
+
+void Renderer::drawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 b, Uint8 a) {
+    SDL_SetRenderDrawColor(renderer, r, g, b, a);
+    SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
+}
+
+void Renderer::drawOutline(){
+    for (int i = 0; i < 21; i++){
+        drawLine(50, i * 30 + 50, 350, i * 30 + 50, 0, 255, 0);
+    }
+    for (int i = 0; i < 11; i++){
+        drawLine(i * 30 + 50, 50, i * 30 + 50, 650, 0, 255, 0);
+    }
 }
 
 void Renderer::drawPiece(Piece* piece) {

@@ -12,9 +12,10 @@ public:
     void addPiece();
     void clear();
     void cutRow(int row);
+    void cutFullRows();
     void movePiece();
     bool isOccupied(int x, int y);
-    int getFullRows();
+    std::vector<int> getFullRows();
     Color* getGrid();
     
     friend class Game;
