@@ -71,7 +71,8 @@ void Board::movePiece() {
                 int x = moving_piece->getX() + shape[i].first;
                 int y = moving_piece->getY() + shape[i].second;
                 if (isOccupied(x, y)) {
-                    throw std::string("Game Over");
+                    throw std::exception();
+                    return;
                 }
             }
             return;

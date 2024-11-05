@@ -36,7 +36,7 @@ void Game::run() {
 void Game::update() {
     try {
         board->movePiece();
-    } catch (const std::string& e) {
+    } catch (std::exception& e) {
         reset();
         paused = true;
     }
@@ -76,7 +76,12 @@ void Game::handleEvents() {
                         break;
                     case SDLK_DOWN:
                         if (!paused)
-                        board->movePiece();
+                        try {
+                            board->movePiece();
+                        } catch (std::exception& e) {
+                            reset();
+                            paused = true;
+                        }
                         break;
                     case SDLK_SPACE:
                         paused = !paused;
