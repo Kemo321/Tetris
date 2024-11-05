@@ -38,6 +38,7 @@ FetchContent_MakeAvailable(SDL2)
 target_include_directories(Tetris PUBLIC ${SDL2_SOURCE_DIR}/include)
 target_link_libraries(Tetris SDL2-static)
 
+
 # Fetch GoogleTest
 FetchContent_Declare(
     googletest
@@ -52,11 +53,11 @@ set(TEST_SOURCES
     tests/PieceTest.cpp
 )
 
-add_executable(TetrisTests ${TEST_SOURCES})
-target_include_directories(TetrisTests PUBLIC include)
+add_executable(TetrisTests ${TEST_SOURCES} ${SOURCES})
 
 # Link GoogleTest to the test executable
-target_link_libraries(TetrisTests gtest gtest_main)
+target_link_libraries(TetrisTests gtest gtest_main SDL2-static)
+target_include_directories(TetrisTests PUBLIC include ${SDL2_SOURCE_DIR}/include)
 
 
 # Enable testing and add tests

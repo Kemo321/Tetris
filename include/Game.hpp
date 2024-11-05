@@ -17,6 +17,7 @@ public:
     bool isRunning();
 
 private:
+    int score;
     bool paused;
     bool running;
     Renderer* renderer;

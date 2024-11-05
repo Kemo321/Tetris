@@ -63,6 +63,14 @@ void Piece::rotate() {
         point.first = -point.second;
         point.second = temp;
     }
+} 
+
+void Piece::rotateBack() {
+    for (std::pair<int, int>& point : shape) {
+        int temp = point.first;
+        point.first = point.second;
+        point.second = -temp;
+    }
 }
 
 int Piece::getX() {

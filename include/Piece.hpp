@@ -2,6 +2,7 @@
 #include <vector>
 #include <utility>
 
+
 enum Color
 {
     RED,
@@ -18,11 +19,12 @@ enum PieceType {I, J, L, O, S, T, Z};
 class Piece {
 public:
     Piece();
-    virtual ~Piece();
+    ~Piece();
     void move();
     void moveLeft();
     void moveRight();
     void rotate();
+    void rotateBack();
     int getX();
     int getY();
     Color getColor();

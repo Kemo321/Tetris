@@ -1,6 +1,5 @@
 #pragma once
 #include <vector>
-#include "Piece.hpp"
 #include "Color.hpp"
 
 
@@ -12,9 +11,14 @@ public:
     void addPiece();
     void clear();
     void cutRow(int row);
-    void cutFullRows();
     void movePiece();
+    void rotatePiece();
+    void movePieceLeft();
+    void movePieceRight();
     bool isOccupied(int x, int y);
+    int cutFullRows();
+
+    Piece* getMovingPiece();
     std::vector<int> getFullRows();
     Color* getGrid();
     

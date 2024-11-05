@@ -2,7 +2,7 @@
 #include <string>
 
 
-Game::Game() : running(true), renderer(new Renderer()), board(new Board()), last_time(SDL_GetTicks()), current_time(0), delta_time(0) {
+Game::Game() : running(true), renderer(new Renderer()), board(new Board()), last_time(SDL_GetTicks()), current_time(0), delta_time(0), score(0) {
     board->addPiece();
 }
 
@@ -40,7 +40,7 @@ void Game::update() {
         reset();
         paused = true;
     }
-    board->cutFullRows();
+    score += board->cutFullRows();
 }
 
 
@@ -49,6 +49,7 @@ void Game::render() {
     renderer->drawBoard(board);
     renderer->drawPiece(board->moving_piece);
     renderer->drawOutline();
+    renderer->drawScore(score);
     renderer->render();
 }
 
@@ -63,15 +64,15 @@ void Game::handleEvents() {
                 switch (event.key.keysym.sym) {
                     case SDLK_LEFT:
                         if (!paused)
-                        board->moving_piece->moveLeft();
+                        board->movePieceLeft();
                         break;
                     case SDLK_RIGHT:
                         if (!paused)
-                        board->moving_piece->moveRight();
+                        board->movePieceRight();
                         break;
                     case SDLK_UP:
                         if (!paused)
-                        board->moving_piece->rotate();
+                        board->rotatePiece();
                         break;
                     case SDLK_DOWN:
                         if (!paused)
@@ -79,6 +80,9 @@ void Game::handleEvents() {
                         break;
                     case SDLK_SPACE:
                         paused = !paused;
+                        break;
+                    case SDLK_r:
+                        reset();
                         break;
                 }
                 break;
@@ -91,6 +95,7 @@ void Game::clean() {
 }
 
 void Game::reset(){
+    score = 0;
     board->clear();
     board->addPiece();
     paused = false;

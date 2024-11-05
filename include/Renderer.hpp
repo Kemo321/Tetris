@@ -1,6 +1,4 @@
 #pragma once
-#include <SDL2/SDL.h>
-#include "Piece.hpp"
 #include "Board.hpp"
 
 
@@ -15,6 +13,8 @@ public:
     void drawOutline();
     void drawPiece(Piece* piece);
     void drawBoard(Board* board);
+    void drawScore(int score);
+    void drawNumber(int x, int y, int number);
 
 private:
     SDL_Window* window;

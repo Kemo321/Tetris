@@ -52,10 +52,10 @@ void Renderer::drawLine(int x1, int y1, int x2, int y2, Uint8 r, Uint8 g, Uint8 
 
 void Renderer::drawOutline(){
     for (int i = 0; i < 21; i++){
-        drawLine(50, i * 30 + 50, 350, i * 30 + 50, 0, 255, 0);
+        drawLine(50, i * 30 + 50, 350, i * 30 + 50, 120, 120, 0);
     }
     for (int i = 0; i < 11; i++){
-        drawLine(i * 30 + 50, 50, i * 30 + 50, 650, 0, 255, 0);
+        drawLine(i * 30 + 50, 50, i * 30 + 50, 650, 120, 120, 0);
     }
 }
 
@@ -77,4 +77,82 @@ void Renderer::drawBoard(Board* board) {
             drawRect(j * 30 + 50, i * 30 + 50, 30, 30, getR(c), getG(c), getB(c));
         }
     }   
+}
+
+void Renderer::drawScore(int score) {
+    std::string str_score = std::to_string(score);
+    
+    for (int i = 0 ; 5 - str_score.size() != 0; i++)
+        str_score = "0" + str_score;
+    
+    for (int i = 0; i < 5; i++) {
+        drawNumber(70 + 60 * i, 15, str_score[i] - '0');
+    }
+}
+
+void Renderer::drawNumber(int x, int y, int number){
+    switch(number){
+        case 0:
+            drawLine(x, y, x + 20, y, 0, 0, 0);
+            drawLine(x, y, x, y + 30, 0, 0, 0);
+            drawLine(x + 20, y, x + 20, y + 30, 0, 0, 0);
+            drawLine(x, y + 30, x + 20, y + 30, 0, 0, 0);
+            break;
+        case 1:
+            drawLine(x + 10, y, x + 10, y + 30, 0, 0, 0);
+            break;
+        case 2:
+            drawLine(x, y, x + 20, y, 0, 0, 0);
+            drawLine(x + 20, y, x + 20, y + 15, 0, 0, 0);
+            drawLine(x, y + 15, x + 20, y + 15, 0, 0, 0);
+            drawLine(x, y + 15, x, y + 30, 0, 0, 0);
+            drawLine(x, y + 30, x + 20, y + 30, 0, 0, 0);
+            break;
+        case 3:
+            drawLine(x, y, x + 20, y, 0, 0, 0);
+            drawLine(x + 20, y, x + 20, y + 30, 0, 0, 0);
+            drawLine(x, y + 15, x + 20, y + 15, 0, 0, 0);
+            drawLine(x, y + 30, x + 20, y + 30, 0, 0, 0);
+            break;
+        case 4:
+            drawLine(x, y, x, y + 15, 0, 0, 0);
+            drawLine(x, y + 15, x + 20, y + 15, 0, 0, 0);
+            drawLine(x + 10, y, x + 10, y + 30, 0, 0, 0);
+            break;
+        case 5:
+            drawLine(x, y, x + 20, y, 0, 0, 0);
+            drawLine(x, y, x, y + 15, 0, 0, 0);
+            drawLine(x, y + 15, x + 20, y + 15, 0, 0, 0);
+            drawLine(x + 20, y + 15, x + 20, y + 30, 0, 0, 0);
+            drawLine(x, y + 30, x + 20, y + 30, 0, 0, 0);
+            break;
+        case 6:
+            drawLine(x, y, x + 20, y, 0, 0, 0);
+            drawLine(x, y, x, y + 30, 0, 0, 0);
+            drawLine(x, y + 15, x + 20, y + 15, 0, 0, 0);
+            drawLine(x + 20, y + 15, x + 20, y + 30, 0, 0, 0);
+            drawLine(x, y + 30, x + 20, y + 30, 0, 0, 0);
+            drawLine(x, y + 15, x, y + 30, 0, 0, 0);
+            break;
+        case 7:
+            drawLine(x, y, x + 20, y, 0, 0, 0);
+            drawLine(x + 20, y, x + 20, y + 30, 0, 0, 0);
+            break;
+        case 8:
+            drawLine(x, y, x + 20, y, 0, 0, 0);
+            drawLine(x, y, x, y + 30, 0, 0, 0);
+            drawLine(x, y + 15, x + 20, y + 15, 0, 0, 0);
+            drawLine(x + 20, y + 15, x + 20, y + 30, 0, 0, 0);
+            drawLine(x, y + 30, x + 20, y + 30, 0, 0, 0);
+            drawLine(x + 20, y, x + 20, y + 30, 0, 0, 0);
+            break;
+        case 9:
+            drawLine(x, y, x + 20, y, 0, 0, 0);
+            drawLine(x, y, x, y + 15, 0, 0, 0);
+            drawLine(x, y + 15, x + 20, y + 15, 0, 0, 0);
+            drawLine(x + 20, y + 15, x + 20, y + 30, 0, 0, 0);
+            drawLine(x, y + 30, x + 20, y + 30, 0, 0, 0);
+            drawLine(x + 20, y, x + 20, y + 30, 0, 0, 0);
+            break;
+    }
 }

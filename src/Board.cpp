@@ -4,7 +4,7 @@
 #include <string>
 
 
-Board::Board() : rows(20), cols(10)
+Board::Board() : rows(20), cols(10), moving_piece(nullptr)
 {
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -40,10 +40,14 @@ void Board::cutRow(int row) {
     }
 }
 
-void Board::cutFullRows() {
-    for (const int& row : getFullRows()) {
+int Board::cutFullRows() {
+    std::vector<int> full_rows = getFullRows();
+    int score = full_rows.empty() ? 0 : 100;
+    for (const int& row : full_rows) {
         cutRow(row);
+        score *= 2;
     }
+    return score;
 }
 
 void Board::movePiece() {
@@ -62,6 +66,7 @@ void Board::movePiece() {
             }
             delete moving_piece;
             moving_piece = new Piece();
+            shape = moving_piece->getShape();
             for (int i = 0; i < shape.size(); i++) {
                 int x = moving_piece->getX() + shape[i].first;
                 int y = moving_piece->getY() + shape[i].second;
@@ -73,6 +78,52 @@ void Board::movePiece() {
         }
     }
     moving_piece->move();
+}
+
+void Board::rotatePiece() {
+    if (moving_piece == nullptr) {
+        return;
+    }
+    moving_piece->rotate();
+    std::vector<std::pair<int, int>> shape = moving_piece->getShape();
+    for (int i = 0; i < shape.size(); i++) {
+        int x = moving_piece->getX() + shape[i].first;
+        int y = moving_piece->getY() + shape[i].second;
+        if (x < 0 || x >= cols || y < 0 || y >= rows || isOccupied(x, y)) {
+            moving_piece->rotateBack();
+            return;
+        }
+    }
+}
+
+void Board::movePieceLeft() {
+    if (moving_piece == nullptr) {
+        return;
+    }
+    std::vector<std::pair<int, int>> shape = moving_piece->getShape();
+    for (int i = 0; i < shape.size(); i++) {
+        int x = moving_piece->getX() + shape[i].first;
+        int y = moving_piece->getY() + shape[i].second;
+        if (x - 1 < 0 || isOccupied(x - 1, y)) {
+            return;
+        }
+    }
+    moving_piece->moveLeft();
+}
+
+void Board::movePieceRight() {
+    if (moving_piece == nullptr) {
+        return;
+    }
+    std::vector<std::pair<int, int>> shape = moving_piece->getShape();
+    for (int i = 0; i < shape.size(); i++) {
+        int x = moving_piece->getX() + shape[i].first;
+        int y = moving_piece->getY() + shape[i].second;
+        if (x + 1 >= cols || isOccupied(x + 1, y)) {
+            return;
+        }
+    }
+    moving_piece->moveRight();
 }
 
 bool Board::isOccupied(int x, int y) {
